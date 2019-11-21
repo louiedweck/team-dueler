@@ -70,18 +70,14 @@ class Hero:
         if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             print("Draw!")
         else:
-            n = 0
             while self.is_alive() and opponent.is_alive():
-                if n % 2 == 0:
-                    opponent.take_damage(self.attack())
-                    if not opponent.is_alive():
-                        print(self.name + " defeated", opponent.name + '!')
-                        return
-                else:
-                    self.take_damage(opponent.attack())
-                    if not self.is_alive():
-                        print(opponent.name + " defeated", self.name + '!')
-                n += 1
+                self.take_damage(opponent.attack())
+                opponent.take_damage(self.attack())
+                if not opponent.is_alive():
+                    print(self.name + " defeated", opponent.name + '!')
+                    return
+                elif not self.is_alive():
+                    print(opponent.name + " defeated", self.name + '!')
 
 
 if __name__ == "__main__":
@@ -94,8 +90,8 @@ if __name__ == "__main__":
     hero2 = Hero("Dumbledore")
     ability1 = Ability("Super Speed", 50)
     ability2 = Ability("Super Eyes", 50)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
+    ability3 = Ability("Wizard Wand", 50)
+    ability4 = Ability("Wizard Beard", 50)
     hero1.add_ability(ability1)
     hero1.add_ability(ability2)
     hero2.add_ability(ability3)
