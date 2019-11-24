@@ -75,9 +75,10 @@ class Hero:
                 opponent.take_damage(self.attack())
                 if not opponent.is_alive():
                     print(self.name + " defeated", opponent.name + '!')
-                    return
+                    return self.name
                 elif not self.is_alive():
                     print(opponent.name + " defeated", self.name + '!')
+                    return opponent.name
 
 
 if __name__ == "__main__":
