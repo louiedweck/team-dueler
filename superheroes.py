@@ -81,6 +81,14 @@ class Hero:
                     return opponent.name
 
 
+class Weapon(Ability):
+    def attack(self):
+        """  This method returns a random value
+       between one half to the full attack power of the weapon.
+       """
+        pass
+
+
 if __name__ == "__main__":
     # hero = Hero("Grace Hopper", 200)
     # hero.take_damage(150)
