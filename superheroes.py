@@ -80,13 +80,52 @@ class Hero:
                     print(opponent.name + " defeated", self.name + '!')
                     return opponent.name
 
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilities'''
+        # TODO: This method will append the weapon object passed in as an
+        # argument to self.abilities.
+        # This means that self.abilities will be a list of
+        # abilities and weapons.
+        self.abilities.append(weapon)
+
 
 class Weapon(Ability):
     def attack(self):
         """  This method returns a random value
        between one half to the full attack power of the weapon.
        """
-        pass
+        return random.randint(self.max_damage//2, self.max_damage)
+
+
+class Team:
+    def __init__(self, name):
+        self.name = name
+        self.heroes = list()
+
+    def remove_hero(self, name):
+        '''Remove hero from heroes list.
+        If Hero isn't found return 0.
+        '''
+        foundHero = False
+    # loop through each hero in our list
+        for hero in self.heroes:
+            # if we find them, remove them from the list
+            if hero.name == name:
+                self.heroes.remove(hero)
+            # set our indicator to True
+                foundHero = True
+    # if we looped through our list and did not find our hero,
+    # the indicator would have never changed, so return 0
+        if not foundHero:
+            return 0
+
+    def view_all_heroes(self):
+        for hero in self.heroes:
+            print(hero)
+
+    def add_heroes(self, hero):
+        '''Add Hero object to self.heroes.'''
+        self.heroes.append(hero)
 
 
 if __name__ == "__main__":
@@ -95,14 +134,18 @@ if __name__ == "__main__":
     # print(hero.is_alive())
     # hero.take_damage(15000)
     # print(hero.is_alive())
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 50)
-    ability2 = Ability("Super Eyes", 50)
-    ability3 = Ability("Wizard Wand", 50)
-    ability4 = Ability("Wizard Beard", 50)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    # hero1 = Hero("Wonder Woman")
+    # hero2 = Hero("Dumbledore")
+    # ability1 = Ability("Super Speed", 50)
+    # ability2 = Ability("Super Eyes", 50)
+    # ability3 = Ability("Wizard Wand", 50)
+    # ability4 = Ability("Wizard Beard", 50)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # hero1.fight(hero2)
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
