@@ -35,6 +35,8 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.deaths = 0
+        self.kills = 0
 
     def add_ability(self, ability):
         self.abilities.append(ability)
@@ -60,6 +62,12 @@ class Hero:
     def take_damage(self, damage):
         self.current_health -= damage
 
+    def add_kill(self, num_kills):
+        self.kills += num_kills
+
+    def add_death(self, num_deaths):
+        self.deaths += num_deaths
+
     def is_alive(self):
         if self.current_health > 0:
             return True
@@ -75,9 +83,13 @@ class Hero:
                 opponent.take_damage(self.attack())
                 if not opponent.is_alive():
                     print(self.name + " defeated", opponent.name + '!')
+                    self.add_kill(1)
+                    opponent.add_death(1)
                     return self.name
                 elif not self.is_alive():
                     print(opponent.name + " defeated", self.name + '!')
+                    opponent.add_kill(1)
+                    self.add_death(1)
                     return opponent.name
 
     def add_weapon(self, weapon):
@@ -126,6 +138,12 @@ class Team:
     def add_heroes(self, hero):
         '''Add Hero object to self.heroes.'''
         self.heroes.append(hero)
+
+    def stats(self):
+        '''Print team statistics'''
+        for hero in self.heroes:
+            kd = hero.kills / hero.deaths
+            print("{} Kill/Deaths:{}".format(hero.name, kd))
 
 
 if __name__ == "__main__":
