@@ -145,6 +145,27 @@ class Team:
             kd = hero.kills / hero.deaths
             print("{} Kill/Deaths:{}".format(hero.name, kd))
 
+    def revive_heroes(self):
+        for hero in self.heroes:
+            if hero.is_alive() == False:
+                hero.current_health == hero.starting_health
+
+    def fight(self, opponent_team):
+        living_heroes = []
+        living_opponents = []
+
+        for hero in self.heroes:
+            living_heroes.append(hero)
+
+        for hero in opponent_team.heroes:
+            living_opponents.append(hero)
+
+        while len(living_opponents) > 0 and len(living_heroes) > 0:
+            hero = random.choice(living_heroes)
+            opponent = random.choice(living_opponents)
+            if hero.is_alive() and opponent.is_alive():
+                hero.fight(opponent)
+
 
 if __name__ == "__main__":
     # hero = Hero("Grace Hopper", 200)
@@ -152,18 +173,18 @@ if __name__ == "__main__":
     # print(hero.is_alive())
     # hero.take_damage(15000)
     # print(hero.is_alive())
-    # hero1 = Hero("Wonder Woman")
-    # hero2 = Hero("Dumbledore")
-    # ability1 = Ability("Super Speed", 50)
-    # ability2 = Ability("Super Eyes", 50)
-    # ability3 = Ability("Wizard Wand", 50)
-    # ability4 = Ability("Wizard Beard", 50)
-    # hero1.add_ability(ability1)
-    # hero1.add_ability(ability2)
-    # hero2.add_ability(ability3)
-    # hero2.add_ability(ability4)
-    # hero1.fight(hero2)
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Lasso of Truth", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 50)
+    ability2 = Ability("Super Eyes", 50)
+    ability3 = Ability("Wizard Wand", 50)
+    ability4 = Ability("Wizard Beard", 50)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
+    # hero = Hero("Wonder Woman")
+    # weapon = Weapon("Lasso of Truth", 90)
+    # hero.add_weapon(weapon)
+    # print(hero.attack())
