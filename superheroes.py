@@ -167,6 +167,72 @@ class Team:
                 hero.fight(opponent)
 
 
+class Arena:
+    def init(self, team_1, team_2):
+        self.team_1 = []
+        self.team_2 = []
+
+    def create_ability(self):
+        name = input("What is the ability name?  ")
+        max_damage = int(input(
+            "What is the max damage of the ability?  "))
+
+        return Ability(name, max_damage)
+
+    def create_weapon(self):
+        name = input("What is the weapon's name?  ")
+        max_damage = int(input(
+            "What is the max damage of the weapon?  "))
+
+        return Weapon(name, max_damage)
+
+    def create_armor(self):
+        name = input("What is the weapon's name?  ")
+        max_block = int(input(
+            "What is the max block of the armor?  "))
+
+        return Armor(name, max_block)
+
+    def create_hero(self):
+        hero_name = input("Hero's name: ")
+        hero = Hero(hero_name)
+        add_item = None
+        while add_item != "4":
+            add_item = input(
+                "[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
+            if add_item == '1':
+                hero.add_ability(self.create_ability())
+            if add_item == '2':
+                hero.add_weapon(self.create_weapon())
+            if add_item == '3':
+                hero.add_armor(self.create_armor())
+            else:
+                return hero
+
+    def build_team_1(self):
+        '''Prompt the user to build team_one '''
+        # Using a loop to call self.create_hero() for the number
+        # of heroes the user specified the team should have,
+        # and then add the heroes to the team.
+        self.team_1 = input("Enter a team name for team 1: ")
+        num_heroes = int(input("Enter how many heroes this team has: "))
+        for i in range(0, num_heroes):
+            self.team_1.heroes.append(self.create_hero())
+
+    def build_team_2(self):
+        self.team_2 = input("Enter a team name for team 2: ")
+        num_heroes = int(input("Enter how many heroes this team has: "))
+        for i in range(0, num_heroes):
+            self.team_2.heroes.append(self.create_hero())
+
+    def team_battle(self):
+        '''Battle team_one and team_two together.'''
+        # TODO: This method should battle the teams together.
+        # Call the attack method that exists in your team objects
+        # for that battle functionality.
+        pass
+
+
 if __name__ == "__main__":
     # hero = Hero("Grace Hopper", 200)
     # hero.take_damage(150)
