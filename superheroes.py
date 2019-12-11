@@ -94,10 +94,6 @@ class Hero:
 
     def add_weapon(self, weapon):
         '''Add weapon to self.abilities'''
-        # TODO: This method will append the weapon object passed in as an
-        # argument to self.abilities.
-        # This means that self.abilities will be a list of
-        # abilities and weapons.
         self.abilities.append(weapon)
 
 
@@ -112,7 +108,7 @@ class Weapon(Ability):
 class Team:
     def __init__(self, name):
         self.name = name
-        self.heroes = list()
+        self.heroes = []
 
     def remove_hero(self, name):
         '''Remove hero from heroes list.
@@ -151,8 +147,8 @@ class Team:
                 hero.current_health == hero.starting_health
 
     def fight(self, opponent_team):
-        living_heroes = []
-        living_opponents = []
+        living_heroes = list()
+        living_opponents = list()
 
         for hero in self.heroes:
             living_heroes.append(hero)
@@ -165,12 +161,17 @@ class Team:
             opponent = random.choice(living_opponents)
             if hero.is_alive() and opponent.is_alive():
                 hero.fight(opponent)
+                if hero.is_alive():
+                    return hero
+                else:
+                    return opponent
+            """ Return a winner"""
 
 
 class Arena:
     def init(self, team_1, team_2):
-        self.team_1 = []
-        self.team_2 = []
+        self.team_1 = team_1
+        self.team_2 = team_2
 
     def create_ability(self):
         name = input("What is the ability name?  ")
@@ -196,8 +197,8 @@ class Arena:
     def create_hero(self):
         hero_name = input("Hero's name: ")
         hero = Hero(hero_name)
-        add_item = None
-        while add_item != "4":
+        add_item = ['1', '2', '3', '4']
+        while add_item != '4':
             add_item = input(
                 "[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
             if add_item == '1':
@@ -211,46 +212,80 @@ class Arena:
 
     def build_team_1(self):
         '''Prompt the user to build team_one '''
-        # Using a loop to call self.create_hero() for the number
-        # of heroes the user specified the team should have,
-        # and then add the heroes to the team.
-        self.team_1 = input("Enter a team name for team 1: ")
+        self.team_1 = Team(input("Enter a team name for team 1: "))
         num_heroes = int(input("Enter how many heroes this team has: "))
-        for i in range(0, num_heroes):
+        for _ in range(0, num_heroes):
             self.team_1.heroes.append(self.create_hero())
 
     def build_team_2(self):
-        self.team_2 = input("Enter a team name for team 2: ")
+        self.team_2 = Team(input("Enter a team name for team 2: "))
         num_heroes = int(input("Enter how many heroes this team has: "))
-        for i in range(0, num_heroes):
+        for _ in range(0, num_heroes):
             self.team_2.heroes.append(self.create_hero())
 
     def team_battle(self):
-        '''Battle team_one and team_two together.'''
-        # TODO: This method should battle the teams together.
-        # Call the attack method that exists in your team objects
-        # for that battle functionality.
-        pass
+        self.team_1.fight(self.team_2)
+
+    def show_stats(self):
+        '''Prints team statistics to terminal.'''
+        # TODO: This method should print out battle statistics
+        # including each team's average kill/death ratio.
+        # Required Stats:
+        #     Show surviving heroes.
+        #     Declare winning team
+        #     Show both teams average kill/death ratio.
+        # Some help on how to achieve these tasks:
+        # TODO: for each team, loop through all of their heroes,
+        # and use the is_alive() method to check for alive heroes,
+        # printing their names and increasing the count if they're alive.
+        #
+        # TODO: based off of your count of alive heroes,
+        # you can see which team has more alive heroes, and therefore,
+        # declare which team is the winning team
+        #
+        # TODO for each team, calculate the total kills and deaths for each hero,
+        # find the average kills and deaths by dividing the totals by the number of heroes.
+        # finally, divide the average number of kills by the average number of deaths for each team
+        team_1_total_kills = 0
+        team_1_total_deaths = 0
+        for hero in self.team_1.heroes:
+            team_1_total_kills += hero.kills
+            team_1_total_deaths += hero.deaths
+        print(team_1_total_kills)
 
 
 if __name__ == "__main__":
-    # hero = Hero("Grace Hopper", 200)
-    # hero.take_damage(150)
-    # print(hero.is_alive())
-    # hero.take_damage(15000)
-    # print(hero.is_alive())
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 50)
-    ability2 = Ability("Super Eyes", 50)
-    ability3 = Ability("Wizard Wand", 50)
-    ability4 = Ability("Wizard Beard", 50)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
-    # hero = Hero("Wonder Woman")
-    # weapon = Weapon("Lasso of Truth", 90)
-    # hero.add_weapon(weapon)
-    # print(hero.attack())
+    game_is_running = True
+
+    # Instantiate Game Arena
+    arena = Arena()
+
+    # Build Teams
+    arena.build_team_1()
+    arena.build_team_2()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        # Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            # Revive heroes to play again
+            arena.team_1.revive_heroes()
+            arena.team_2.revive_heroes()
+    # hero1 = Hero("Wonder Woman")
+    # hero2 = Hero("Dumbledore")
+    # ability1 = Ability("Super Speed", 50)
+    # ability2 = Ability("Super Eyes", 50)
+    # ability3 = Ability("Wizard Wand", 50)
+    # ability4 = Ability("Wizard Beard", 50)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # hero1.fight(hero2)
