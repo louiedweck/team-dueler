@@ -110,6 +110,9 @@ class Team:
         self.name = name
         self.heroes = []
 
+    def __repr__(self):
+        return self.name
+
     def remove_hero(self, name):
         '''Remove hero from heroes list.
         If Hero isn't found return 0.
